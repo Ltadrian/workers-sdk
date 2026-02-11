@@ -84,7 +84,11 @@ export class HyperdriveProxyController {
 	) {
 		// Connect to real database
 		const dbSocket = net.connect({ host: targetHost, port: targetPort });
-		const sslmodeRequire = sslmode === "require";
+		// todo(someday) properly support verify-full/verify-ca modes for local dev
+		const sslmodeRequire =
+			sslmode === "require" ||
+			sslmode === "verify-full" ||
+			sslmode === "verify-ca";
 		const sslmodePrefer = sslmode === "prefer";
 		if (sslmodePrefer || sslmodeRequire) {
 			try {
